@@ -32,6 +32,7 @@ pkgs.neovim.override {
       " haskell
       let g:haskellmode_completion_ghc = 0
       let g:haskell_classic_highlighting = 1
+      let g:syntastic_haskell_hdevtools_args = "-package-key ghc-8.0.2"
       au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
       au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
       autocmd FileType haskell setlocal shiftwidth=2 softtabstop=2

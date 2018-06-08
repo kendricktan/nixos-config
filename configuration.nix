@@ -37,32 +37,56 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      curl
-      wget
-      dmenu
-      firefox
-      git
-      gparted
+      # WM / DM
+      taffybar haskellPackages.taffybar
+      rofi networkmanagerapplet
+
+      # CLI utils
+      curl wget
+      git gparted
+      htop neofetch
+      powertop scrot
+      telnet tree
+
+      # File managers, compression tools, file-related tools
+      nitrogen gnome3.nautilus
+      p7zip unrar unzip
+
+      # Dev-tools
+      cabal-install
       haskell.packages.ghc802.hdevtools
+      haskell.packages.ghc802.stylish-haskell
       haskell.packages.ghc802.hoogle
-      htop
-      lambda-mod-zsh-theme
-      gnome3.gedit
-      gnome3.nautilus
-      neovim
-      oh-my-zsh
-      p7zip
+
+      # Dev-languages
       python36
+
+      # Browsers
+      firefox google-chrome
+
+      # Editors
+      gnome3.gedit
+      neovim
+
+      # Terminals, shells and shell goodies
+      termite tmux
+      oh-my-zsh zsh
+
+      # Multimedia, torrents, IRC
+      transmission vlc
+      nitrogen feh
+      chatzilla
+
+      # Key management
+      keepassx keepassx2
+
+      # System management
+      xlibs.xmodmap xlibs.xbacklight
+      upower
+
+      # Libraries
       python36Packages.neovim
-      termite
-      telnet
-      tmux
-      unrar
-      unzip
-      wget
-      xlibs.xmodmap
-      xlibs.xbacklight
-      zsh
+
     ];
   };
 
@@ -71,6 +95,7 @@
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+
   programs.zsh = {
     enable = true;
     shellAliases = {
@@ -93,6 +118,8 @@
   };
 
   # List services that you want to enable:
+  services.gnome3.gnome-keyring.enable = true;
+  services.upower.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -118,10 +145,8 @@
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
-      extraPackages = haskellPackages: [
-        haskellPackages.xmonad-contrib
-	haskellPackages.xmonad-extras
-	haskellPackages.xmonad
+      extraPackages = hpkgs: [
+        hpkgs.taffybar
       ];
     };
     windowManager.default = "xmonad";
@@ -150,16 +175,6 @@
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
 
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-
-  # Define a user account. Don't forget to set a password with â€˜passwdâ€™.
-  # users.extraUsers.guest = {
-  #   isNormalUser = true;
-  #   uid = 1000;
-  # };
-
   users = {
     defaultUserShell = pkgs.zsh;
     extraUsers.kendrick = {
@@ -176,7 +191,7 @@
     allowUnfree = true;
 
     packageOverrides = pkgs: rec {
-      neovim = (import ./vim.nix);
+      neovim = (import ./neovim.nix);
     };
   };
 
