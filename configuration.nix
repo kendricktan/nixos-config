@@ -21,7 +21,7 @@
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   networking.hostName = "kendrick-t460s"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
   i18n = {
@@ -37,9 +37,11 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      # WM / DM
-      taffybar haskellPackages.taffybar
-      rofi networkmanagerapplet
+      # WM / DM tools
+      haskellPackages.xmobar
+      stalonetray rofi dmenu
+      pavucontrol pasystray # Volume
+      networkmanager networkmanagerapplet # Network
 
       # CLI utils
       curl wget
@@ -75,7 +77,7 @@
       # Multimedia, torrents, IRC
       transmission vlc
       nitrogen feh
-      chatzilla
+      mpd chatzilla
 
       # Key management
       keepassx keepassx2
@@ -134,8 +136,8 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -146,7 +148,7 @@
       enable = true;
       enableContribAndExtras = true;
       extraPackages = hpkgs: [
-        hpkgs.taffybar
+        hpkgs.xmobar
       ];
     };
     windowManager.default = "xmonad";
