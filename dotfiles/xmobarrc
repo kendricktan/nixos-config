@@ -4,6 +4,7 @@ Config { font = "xft:Ubuntu Mono-9",
        , bgColor = "black"
        , fgColor = "grey"
        , position = TopW L 100
+       , overrideRedirect = True
        , commands = [ Run Weather "YBBN" [
                         "-t", "<tempC>C", "-L", "18",
 		        "-H", "35",

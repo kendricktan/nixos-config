@@ -47,7 +47,7 @@
       curl wget
       git gparted
       htop neofetch
-      powertop scrot
+      gnupg powertop scrot
       telnet tree
 
       # File managers, compression tools, file-related tools
@@ -74,13 +74,13 @@
       termite tmux
       oh-my-zsh zsh
 
-      # Multimedia, torrents, IRC
-      transmission vlc
-      nitrogen feh
-      mpd chatzilla
+      # Multimedia, torrents, IRC, networking, cloud
+      qbittorrent vlc
+      feh hexchat
+      gpa dropbox
 
       # Key management
-      keepassx keepassx2
+      keepass
 
       # System management
       xlibs.xmodmap xlibs.xbacklight

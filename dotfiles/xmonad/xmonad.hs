@@ -21,26 +21,28 @@ import           Control.Monad            (when)
 myWorkspaces = foldl (\b a -> b ++ [(show $ length b + 1) ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
 myTerminal = "termite"
 myBorderWidth = 3
-myFocusColor = "#ff3f34"
+myFocusColor = "#2ecc71"
 
 confirm :: String -> X () -> X ()
 confirm m f = do
   result <- dmenu [m, "y", "n"]
-  when (init result == m) f
+  when (result == "y") f
 
 myStartupHook = do
   spawn "stalonetray &"
   spawn "xrdb -merge ~/.XResources &"
   spawn "xsetroot -cursor_name left_ptr &"
-  spawn "feh --bg-fill $HOME/Pictures/bike.jpg &"
+  spawn "feh --bg-fill $HOME/Pictures/Background/background001.jpg &"
   spawn "nm-applet &"
   spawn "pasystray &"
+  spawn "dropbox &"
 
 delKeys :: XConfig l -> [(KeyMask, KeySym)]
 delKeys conf@(XConfig {modMask = modMask}) =
   [ ((modMask, xK_p))
-  , ((modMask .|. shiftMask, xK_q))
   , ((modMask, xK_q))
+  , ((modMask .|. shiftMask, xK_q))
+  , ((modMask .|. shiftMask, xK_c))
   ]
 
 insKeys :: XConfig l -> [((KeyMask, KeySym), X ())]

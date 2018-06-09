@@ -93,6 +93,11 @@ pkgs.neovim.override {
 
       set cursorline					" Highlight current line
 
+      " Jump back to last position
+      if has("autocmd")
+        au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+      endif
+
       " Fix terminal color scheme
       set t_Co=256
       " set termguicolors
