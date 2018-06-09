@@ -67,6 +67,7 @@ insKeys conf@(XConfig {modMask = modMask}) =
   , ((modMask .|. shiftMask, xK_q), kill)
   , ((modMask .|. shiftMask, xK_r), confirm "Restart" $ restart "xmonad" True)
   , ((modMask .|. shiftMask, xK_e), confirm "Exit" $ io (exitWith ExitSuccess))
+  , ((modMask .|. controlMask, xK_l), spawn "i3lock-fancy")
   ]
 
 main = do

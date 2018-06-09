@@ -42,11 +42,12 @@
       stalonetray rofi dmenu
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
+      i3lock-fancy
 
       # CLI utils
       curl wget
       git gparted
-      htop neofetch
+      htop neofetch nox
       gnupg powertop scrot
       telnet tree
       xorg.xev xorg.xkill
@@ -98,6 +99,7 @@
   # started in user sessions.
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
+  programs.slock.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
   programs.zsh = {
