@@ -49,6 +49,7 @@
       htop neofetch
       gnupg powertop scrot
       telnet tree
+      xorg.xev xorg.xkill
 
       # File managers, compression tools, file-related tools
       nitrogen gnome3.nautilus
@@ -74,13 +75,14 @@
       termite tmux
       oh-my-zsh zsh
 
-      # Multimedia, torrents, IRC, networking, cloud
-      qbittorrent vlc
-      feh hexchat
-      gpa dropbox
+      # Torrent, multimedia, chat, cloud
+      qbittorrent
+      vlc feh
+      hexchat slack
+      dropbox
 
       # Key management
-      keepass
+      keepass gpa
 
       # System management
       xlibs.xmodmap xlibs.xbacklight
@@ -88,7 +90,7 @@
 
       # Libraries
       python36Packages.neovim
-
+      python36Packages.youtube-dl
     ];
   };
 
@@ -96,7 +98,7 @@
   # started in user sessions.
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
+  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
   programs.zsh = {
     enable = true;
@@ -149,6 +151,8 @@
       enableContribAndExtras = true;
       extraPackages = hpkgs: [
         hpkgs.xmobar
+        hpkgs.xmonad-contrib
+        hpkgs.xmonad-extras
       ];
     };
     windowManager.default = "xmonad";
