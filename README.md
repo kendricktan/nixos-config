@@ -10,12 +10,6 @@ nixos-rebuild switch
 ```
 
 # Getting stuff working
-0. Fix wpa_supplicant
-```
-touch /etc/wpa_supplicant.conf
-echo "ctrl_interface=/run/wpa_supplicant" >> /etc/wpa_supplicant.conf
-echo "ctrl_interface_group=wheel" >> /etc/wpa_supplicant.conf
-```
 1. Download wallpaper
 ```
 mkdir -p ~/Pictures/Background
