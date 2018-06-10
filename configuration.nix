@@ -84,18 +84,33 @@
 
       # Key management
       keepass gpa
+      gnome3.seahorse
 
       # Office
       libreoffice
 
       # System management
       xlibs.xmodmap xlibs.xbacklight
-      upower
+      upower tlp
 
       # Libraries
       python36Packages.neovim
       python36Packages.youtube-dl
     ];
+    etc = {
+      "X11/xorg.conf.d/20-thinkpad.conf".text = ''
+        Section "InputClass"
+          Identifier  "Trackpoint Wheel Emulation"
+          MatchProduct  "TPPS/2 IBM TrackPoint|DualPoint Stick|Synaptics Inc. Composite TouchPad / TrackPoint|ThinkPad USB Keyboard with TrackPoint|USB Trackpoint pointing device|Composite TouchPad / TrackPoint"
+          MatchDevicePath "/dev/input/event*"
+          Option    "EmulateWheel"    "true"
+          Option    "EmulateWheelButton"  "2"
+          Option    "Emulate3Buttons" "false"
+          Option    "XAxisMapping"    "6 7"
+          Option    "YAxisMapping"    "4 5"
+        EndSection
+      '';
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -169,6 +184,15 @@
     xmodmap -e "keycode 66 = Escape NoSymbol Escape"
     xmodmap -e "clear Lock"
     '';
+    synaptics = {
+      enable = true;
+      minSpeed = "1.0";
+      maxSpeed = "2.0";
+      twoFingerScroll = true;
+      palmDetect = true;
+      tapButtons = false;
+      scrollDelta = -75;
+    };
   };
 
   fonts = {

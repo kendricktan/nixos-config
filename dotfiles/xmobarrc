@@ -18,13 +18,13 @@ Config { font = "xft:Ubuntu Mono-9",
                     , Run Memory ["-t", "Mem: <usedratio>%"] 10
                     , Run Com "uname" ["-s", "-r"] "" 36000
                     , Run Date "%a %d %B %Y %H:%M:%S" "date" 10
-		    , Run BatteryP ["BAT0"]
-		      ["-t", "Bat: <acstatus><watts> (<left>%)",
+		    , Run BatteryP ["BAT0", "BAT1"]
+		      ["-t", "Bat: <acstatus><watts> (<left>%) - <timeleft>",
 		       "-L", "10", "-H", "80", "-p", "3",
 		       "--", "-O", "<fc=green>On</fc> - ", "-i", "",
 		       "-L", "-15", "-H", "-5",
 		       "-l", "red", "-m", "blue", "-h", "green"]
-		      600
+		      10
 		    -- , Run Volume "pulse" "Master" ["-t", "<volume>% <status>", "--", "-on", "x"] 10
                     , Run StdinReader
                     ]
