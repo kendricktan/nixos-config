@@ -66,6 +66,8 @@ insKeys conf@(XConfig {modMask = modMask}) =
   , ((modMask, xK_z),	   sendMessage RestoreNextMinimizedWin)
   , ((0, 0x1008ff13),	   spawn "pactl set-sink-volume 0 +5%")
   , ((0, 0x1008ff11),	   spawn "pactl set-sink-volume 0 -5%")
+  , ((0, 0x1008ff02),	   spawn "xbacklight -inc 10")
+  , ((0, 0x1008ff03),	   spawn "xbacklight -dec 10")
   , ((0, 0x1008ff12),	   spawn "pactl list sinks | grep -q Mute:.no && pactl set-sink-mute 0 1 || pactl set-sink-mute 0 0")
   , ((modMask .|. shiftMask, xK_q), kill)
   , ((modMask .|. shiftMask, xK_r), confirm "Restart" $ restart "xmonad" True)
