@@ -12,12 +12,11 @@
     ];
 
   # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "nodev"; # or "nodev" for efi only
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.networkmanager.enable = true;
-  networking.hostName = "kendrick-t460s"; # Define your hostname.
+  networking.hostName = "nixos-t460s"; # Define your hostname.
 
   # Select internationalisation properties.
   i18n = {
