@@ -37,6 +37,10 @@ pkgs.neovim.override {
       au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
       autocmd FileType haskell setlocal shiftwidth=2 softtabstop=2
 
+      " hledger
+      au BufNewFile,BufRead *.journal set filetype=ledger
+      autocmd FileType ledger setlocal omnifunc=hledger#complete#omnifunc shiftwidth=4 softtabstop=4 expandtab
+
       "************************************************
       "" Key mappings
       "************************************************
@@ -120,6 +124,15 @@ pkgs.neovim.override {
           sha256 = "1sn62nvdjs8i4lvmqj19gyj5k9w588whaylk50xn4y2z57cyf7a7";
         };
       };
+      hledger-vim = pkgs.vimUtils.buildVimPlugin {
+        name = "hledger-vim";
+        src = pkgs.fetchFromGitHub {
+          owner = "anekos";
+          repo = "hledger-vim";
+          rev = "dec68a37073cbeca3b1e3cac251324378b74ed97";
+          sha256 = "0khgfbkx8w4fiix2fcnhg4b4sj98hsrkbg9srqdp3a58dpi105zi";
+        };
+      };
     };
     vam.pluginDictionaries = [
       {
@@ -127,6 +140,7 @@ pkgs.neovim.override {
 	  "airline"
           "deus"
           "deoplete-nvim"
+          "hledger-vim"
 	  "haskell-vim"
 	  "nerdtree"
 	  "neoformat"

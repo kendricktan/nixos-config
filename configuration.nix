@@ -70,7 +70,7 @@
 
       # Editors
       gnome3.gedit
-      neovim
+      neovim vscode
 
       # Terminals, shells and shell goodies
       termite tmux
@@ -82,8 +82,15 @@
       hexchat slack
       dropbox
 
+      # Finance
+      haskellPackages.hledger
+      haskellPackages.hledger-web
+
       # Key management
       keepass gpa
+
+      # Office
+      libreoffice
 
       # System management
       xlibs.xmodmap xlibs.xbacklight
@@ -106,6 +113,7 @@
     enable = true;
     shellAliases = {
       vim = "nvim";
+      code = "vscode";
     };
     enableCompletion = true;
     enableAutosuggestions = true;
