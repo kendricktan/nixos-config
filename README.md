@@ -36,3 +36,9 @@ cp nixos-config/dotfiles/stalonetrayrc ~/.stalonetrayrc
 ```
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 ```
+
+# If shit isn't working
+- WIFI
+```
+sudo NetworkManager
+```

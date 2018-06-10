@@ -16,8 +16,8 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "nodev"; # or "nodev" for efi only
 
+  networking.networkmanager.enable = true;
   networking.hostName = "kendrick-t460s"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
   i18n = {
@@ -37,7 +37,7 @@
       haskellPackages.xmobar
       stalonetray rofi dmenu
       pavucontrol pasystray # Volume
-      wpa_supplicant
+      networkmanager.out
       networkmanager networkmanagerapplet # Network
       i3lock-fancy
 
