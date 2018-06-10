@@ -1,6 +1,5 @@
 mkdir -p ~/Pictures/Background
 wget https://i.imgur.com/MTakAux.jpg -O ~/Pictures/Background/background001.jpg
-cp /etc/zshrc ~/.zshrc
 mkdir -p ~/.config/termite
 cp ./dotfiles/config/termite/config ~/.config/termite/config
 cp ./dotfiles/xmonad/xmonad.hs ~/.xmonad/xmonad.hs
