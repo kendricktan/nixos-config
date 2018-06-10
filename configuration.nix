@@ -11,14 +11,10 @@
       ./hardware-configuration.nix
     ];
 
-  # VirtualBox
-  virtualisation.virtualbox.guest.enable = true;
-  boot.initrd.checkJournalingFS = false;
-
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "nodev"; # or "nodev" for efi only
 
   networking.hostName = "kendrick-t460s"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -41,6 +37,7 @@
       haskellPackages.xmobar
       stalonetray rofi dmenu
       pavucontrol pasystray # Volume
+      wpa_supplicant
       networkmanager networkmanagerapplet # Network
       i3lock-fancy
 
