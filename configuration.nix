@@ -37,7 +37,6 @@
       haskellPackages.xmobar
       stalonetray rofi dmenu
       pavucontrol pasystray # Volume
-      networkmanager.out
       networkmanager networkmanagerapplet # Network
       i3lock-fancy
 
@@ -50,8 +49,10 @@
       xorg.xev xorg.xkill
 
       # File managers, compression tools, file-related tools
-      nitrogen gnome3.nautilus
-      p7zip unrar unzip
+      gnome3.nautilus p7zip unrar unzip
+      samba gvfs xfce.thunar
+      librsvg
+      paper-icon-theme paper-gtk-theme
 
       # Dev-tools
       gnumake gcc
@@ -89,7 +90,8 @@
       keepass gnome3.seahorse
 
       # Office
-      libreoffice
+      libreoffice zathura
+      evince
 
       # System management
       xlibs.xmodmap xlibs.xbacklight
@@ -98,10 +100,20 @@
       # Libraries
       python36Packages.neovim
       python36Packages.youtube-dl
+      python36Packages.pip
 
       # CUDA
       # cudatoolkit
     ];
+    # GTK Icons
+    sessionVariables = {
+      GDK_PIXBUF_MODULE_FILE = "$(echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache)";
+    };
+
+    # GVFS for mounting network drives
+    variables.GIO_EXTRA_MODULES = [ "${pkgs.gvfs}/lib/gio/modules" ];
+
+    # Trackpoint
     etc = {
       "X11/xorg.conf.d/20-thinkpad.conf".text = ''
         Section "InputClass"
@@ -147,9 +159,15 @@
   };
 
   # List services that you want to enable:
+  services.samba.enable = true;
   services.gnome3.gnome-keyring.enable = true;
   services.upower.enable = true;
   services.acpid.enable = true;
+  services.printing.enable = true;
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+
+
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -235,6 +253,9 @@
 
     packageOverrides = pkgs: rec {
       neovim = (import ./neovim.nix);
+      xfce = pkgs.xfce // {
+        gvfs = pkgs.gvfs;
+      };
     };
   };
 
