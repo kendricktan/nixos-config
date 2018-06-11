@@ -31,7 +31,9 @@ confirm m f = do
 
 myStartupHook = do
   -- Spawn system tray
-  spawn "stalonetray &"
+  spawn "kill -9 $(ps aux | grep -e \"trayer\" | awk ' { print $2 } ') &"
+  spawn "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 0 --tint 0x000000 --height 16 &"
+  -- spawn "stalonetray &"
   -- Set color themes
   spawn "xrdb -merge ~/.XResources &"
   -- Set cursor

@@ -38,7 +38,7 @@
       stalonetray rofi dmenu
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
-      i3lock-fancy
+      i3lock-fancy trayer
 
       # CLI utils
       curl wget
@@ -51,7 +51,7 @@
       # File managers, compression tools, file-related tools
       gnome3.nautilus p7zip unrar unzip
       samba gvfs xfce.thunar
-      librsvg
+      librsvg ntfs3g
       paper-icon-theme paper-gtk-theme
 
       # Dev-tools
