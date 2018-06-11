@@ -25,10 +25,10 @@ Config { font = "xft:Ubuntu Mono-9",
 		       "-L", "-15", "-H", "-5",
 		       "-l", "red", "-m", "blue", "-h", "green"]
 		      10
-		    -- , Run Volume "pulse" "Master" ["-t", "<volume>% <status>", "--", "-on", "x"] 10
+		    , Run Volume "default" "Master" ["-t", "Vol: <volume>% <status>", "--", "-on", "x"] 1
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %enp0s31f6% - %wlp4s0% | %cpu% | %memory% | %battery% | <fc=#ee9a00>%date%</fc> | %YBBN% |              "
+       , template = "%StdinReader% }{ %enp0s31f6% - %wlp4s0% | %cpu% | %memory% | %battery% | %default:Master% | <fc=#ee9a00>%date%</fc> | %YBBN% |              "
        }

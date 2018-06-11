@@ -11,9 +11,10 @@
       ./hardware-configuration.nix
     ];
 
-  # Use the GRUB 2 boot loader.
+  # Use EFI
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # boot.kernelModules = [ "pkgs.linuxPackages.nvidia_x11" ];
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos-t460s"; # Define your hostname.
@@ -53,6 +54,7 @@
       p7zip unrar unzip
 
       # Dev-tools
+      gnumake gcc
       cabal-install
       haskell.packages.ghc802.hdevtools
       haskell.packages.ghc802.stylish-haskell
@@ -60,6 +62,7 @@
 
       # Dev-languages
       python36
+      haskell.packages.ghc802.ghc
 
       # Browsers
       firefox google-chrome
@@ -73,29 +76,31 @@
       oh-my-zsh zsh
 
       # Torrent, multimedia, chat, cloud
-      qbittorrent
+      qbittorrent gnome3.gnome-screenshot
       vlc feh
       hexchat slack
-      dropbox
+      dropbox mirage
 
       # Finance
       haskellPackages.hledger
       haskellPackages.hledger-web
 
       # Key management
-      keepass gpa
-      gnome3.seahorse
+      keepass gnome3.seahorse
 
       # Office
       libreoffice
 
       # System management
       xlibs.xmodmap xlibs.xbacklight
-      upower tlp
+      upower tlp acpi
 
       # Libraries
       python36Packages.neovim
       python36Packages.youtube-dl
+
+      # CUDA
+      # cudatoolkit
     ];
     etc = {
       "X11/xorg.conf.d/20-thinkpad.conf".text = ''
@@ -119,7 +124,6 @@
   # programs.mtr.enable = true;
   programs.slock.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
   programs.zsh = {
     enable = true;
     shellAliases = {
@@ -145,6 +149,7 @@
   # List services that you want to enable:
   services.gnome3.gnome-keyring.enable = true;
   services.upower.enable = true;
+  services.acpid.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -191,8 +196,10 @@
       twoFingerScroll = true;
       palmDetect = true;
       tapButtons = false;
-      scrollDelta = -75;
+      scrollDelta = -75; # Natural scroll
     };
+    # CUDA Related Stuff
+    # videoDrivers = [ "nvidia" ];
   };
 
   fonts = {

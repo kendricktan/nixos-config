@@ -40,10 +40,8 @@ myStartupHook = do
   spawn "feh --bg-fill $HOME/Pictures/Background/background001.jpg &"
   -- Kill duplicate process
   spawn "kill -9 $(ps aux | grep -e \"nm-applet\" | awk ' { print $2 } ') &"
-  spawn "kill -9 $(ps aux | grep -e \"pasystray\" | awk ' { print $2 } ') &"
   spawn "kill -9 $(ps aux | grep -e \"dropbox\" | awk ' { print $2 } ') &"
   -- Spawn process
-  spawn "pasystray &"
   spawn "dropbox &"
   spawn "nm-applet &"
 
@@ -64,11 +62,14 @@ insKeys conf@(XConfig {modMask = modMask}) =
   , ((modMask, xK_b),	   sendMessage ToggleStruts)
   , ((modMask, xK_x),	   withFocused minimizeWindow)
   , ((modMask, xK_z),	   sendMessage RestoreNextMinimizedWin)
-  , ((0, 0x1008ff13),	   spawn "pactl set-sink-volume 0 +5%")
-  , ((0, 0x1008ff11),	   spawn "pactl set-sink-volume 0 -5%")
+  , ((0, 0xff61),	   spawn "gnome-screenshot -f ~/Pictures/\"Screenshot-$(date '+%d-%m-%Y-%H:%M:%S').png\"")
+  , ((0, 0x1008ff12),	   spawn "amixer set Master toggle")
+  , ((0, 0x1008ff13),	   spawn "amixer -q sset Master 8%+")
+  , ((0, 0x1008ff11),	   spawn "amixer -q sset Master 8%-")
+  , ((0, 0x1008ffb2),	   spawn "amixer set Capture toggle")
   , ((0, 0x1008ff02),	   spawn "xbacklight -inc 10")
   , ((0, 0x1008ff03),	   spawn "xbacklight -dec 10")
-  , ((0, 0x1008ff12),	   spawn "pactl list sinks | grep -q Mute:.no && pactl set-sink-mute 0 1 || pactl set-sink-mute 0 0")
+  , ((0 .|. shiftMask, 0xff61),	   spawn "gnome-screenshot -a -f ~/Pictures/\"Screenshot-$(date '+%d-%m-%Y-%H:%M:%S').png\"")
   , ((modMask .|. shiftMask, xK_q), kill)
   , ((modMask .|. shiftMask, xK_r), confirm "Restart" $ restart "xmonad" True)
   , ((modMask .|. shiftMask, xK_e), confirm "Exit" $ io (exitWith ExitSuccess))
@@ -80,7 +81,7 @@ main = do
 
   xmonad $ desktopConfig
     { manageHook = manageDocks <+> manageHook defaultConfig
-    , layoutHook = avoidStruts $ (minimize (Tall 1 (3/100) (1/2)) ||| layoutHook defaultConfig)
+    , layoutHook = avoidStruts $ layoutHook defaultConfig
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc
 	, ppTitle = xmobarColor "green" "" . shorten 50
