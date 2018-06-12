@@ -35,10 +35,10 @@
     systemPackages = with pkgs; [
       # WM / DM tools
       haskellPackages.xmobar
-      stalonetray rofi dmenu
+      rofi dmenu trayer # Dynamic menu
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
-      i3lock-fancy trayer
+      i3lock-fancy # Lock screen
 
       # CLI utils
       curl wget
@@ -50,7 +50,7 @@
 
       # File managers, compression tools, file-related tools
       gnome3.nautilus p7zip unrar unzip
-      samba gvfs xfce.thunar
+      samba gvfs xfce.thunar # Thunar in-case nautilus screws up
       librsvg ntfs3g
       paper-icon-theme paper-gtk-theme
 
@@ -77,6 +77,7 @@
       oh-my-zsh zsh
 
       # Torrent, multimedia, chat, cloud
+      rambox
       qbittorrent gnome3.gnome-screenshot
       vlc feh
       hexchat slack
@@ -145,9 +146,18 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     interactiveShellInit = ''
+      # SSH-Agent
+      if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+        eval `ssh-agent` &> /dev/null
+        ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+      fi
+      export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+      grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add &> /dev/null
+
       # z - jump around
       source ${pkgs.fetchurl {url = "https://github.com/rupa/z/raw/2ebe419ae18316c5597dd5fb84b5d8595ff1dde9/z.sh"; sha256 = "0ywpgk3ksjq7g30bqbhl9znz3jh6jfg8lxnbdbaiipzgsy41vi10";}}
 
+      # Oh my zsh
       export ZSH=${pkgs.oh-my-zsh}/share/oh-my-zsh
       export ZSH_THEME="lambda"
 

@@ -4,19 +4,20 @@ import           System.IO
 import           Data.Default
 import           XMonad
 import           XMonad.Config.Desktop
-import           XMonad.Core              (io)
+import           XMonad.Core                      (io)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
+import           XMonad.Layout.IndependentScreens (countScreens)
 import           XMonad.Layout.Minimize
-import           XMonad.Operations        (kill, refresh, restart, reveal,
-                                           withFocused)
-import           XMonad.Prompt            (quit)
+import           XMonad.Operations                (kill, refresh, restart,
+                                                   reveal, withFocused)
+import           XMonad.Prompt                    (quit)
 import           XMonad.Util.CustomKeys
 import           XMonad.Util.Dmenu
-import           XMonad.Util.Run          (spawnPipe)
+import           XMonad.Util.Run                  (spawnPipe)
 import           XMonad.Util.SpawnOnce
 
-import           Control.Monad            (when)
+import           Control.Monad                    (when)
 
 
 myWorkspaces = foldl (\b a -> b ++ [(show $ length b + 1) ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
@@ -39,7 +40,7 @@ myStartupHook = do
   -- Set cursor
   spawn "xsetroot -cursor_name left_ptr &"
   -- Set wallpaper
-  spawn "feh --bg-fill $HOME/Pictures/Background/background002.jpg &"
+  spawn "feh --bg-center $HOME/Pictures/Background/background002.jpg &"
   -- Kill duplicate process
   spawn "kill -9 $(ps aux | grep -e \"nm-applet\" | awk ' { print $2 } ') &"
   spawn "kill -9 $(ps aux | grep -e \"dropbox\" | awk ' { print $2 } ') &"
@@ -79,6 +80,14 @@ insKeys conf@(XConfig {modMask = modMask}) =
   ]
 
 main = do
+  -- Automatically configure screens for home
+  nScreens <- countScreens
+
+  if nScreens == 3
+     then spawn "xrandr --output DP2-1 --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
+     else spawn "xrandr --output DP2-1 --off --output DP2-3 --off --output eDP1 --auto"
+
+  -- Manage xmobar's process
   xmproc <- spawnPipe "xmobar"
 
   xmonad $ desktopConfig
