@@ -3,12 +3,17 @@ import           System.IO
 
 import           Data.Default
 import           XMonad
+import           XMonad.Actions.NoBorders         (toggleBorder)
 import           XMonad.Config.Desktop
 import           XMonad.Core                      (io)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.ManageHelpers       (doFullFloat, isFullscreen)
+import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.IndependentScreens (countScreens)
 import           XMonad.Layout.Minimize
+import           XMonad.Layout.Named
+import           XMonad.Layout.NoBorders
 import           XMonad.Operations                (kill, refresh, restart,
                                                    reveal, withFocused)
 import           XMonad.Prompt                    (quit)
@@ -62,7 +67,8 @@ insKeys conf@(XConfig {modMask = modMask}) =
   , ((modMask, xK_Tab),    spawn "rofi -show window")
   , ((modMask, xK_Return), spawn "termite")
   , ((modMask, xK_r),	   refresh)
-  , ((modMask, xK_b),	   sendMessage ToggleStruts)
+  , ((modMask, xK_b),	   sendMessage ToggleStruts) -- Toggles xmobar visibility
+  , ((modMask, xK_m),	   withFocused toggleBorder) -- Toggles border display
   , ((modMask, xK_x),	   withFocused minimizeWindow)
   , ((modMask, xK_z),	   sendMessage RestoreNextMinimizedWin)
   , ((0, 0xff61),	   spawn "gnome-screenshot -f ~/Pictures/\"Screenshot-$(date '+%d-%m-%Y-%H:%M:%S').png\"")
@@ -83,16 +89,16 @@ main = do
   -- Automatically configure screens for home
   nScreens <- countScreens
 
-  if nScreens == 3
-     then spawn "xrandr --output DP2-1 --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
-     else spawn "xrandr --output DP2-1 --off --output DP2-3 --off --output eDP1 --auto"
+  -- if nScreens >= 2
+  --    then spawn "xrandr --output DP2-1 --auto --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
+  --    else spawn "xrandr --output DP2-1 --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
 
   -- Manage xmobar's process
   xmproc <- spawnPipe "xmobar"
 
   xmonad $ desktopConfig
-    { manageHook = manageDocks <+> manageHook defaultConfig
-    , layoutHook = avoidStruts $ layoutHook defaultConfig
+    { manageHook = manageDocks <+> (isFullscreen --> doFullFloat) <+> manageHook defaultConfig
+    , layoutHook = avoidStruts (layoutHook defaultConfig) ||| (named "[_]" (noBorders (fullscreenFull Full)))
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc
 	, ppTitle = xmobarColor "green" "" . shorten 50

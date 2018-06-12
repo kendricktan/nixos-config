@@ -38,6 +38,8 @@
       rofi dmenu trayer # Dynamic menu
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
+      paper-icon-theme paper-gtk-theme
+      xorg.xcursorthemes lxappearance
       i3lock-fancy # Lock screen
 
       # CLI utils
@@ -52,7 +54,6 @@
       gnome3.nautilus p7zip unrar unzip
       samba gvfs xfce.thunar # Thunar in-case nautilus screws up
       librsvg ntfs3g
-      paper-icon-theme paper-gtk-theme
 
       # Dev-tools
       gnumake gcc
@@ -77,11 +78,11 @@
       oh-my-zsh zsh
 
       # Torrent, multimedia, chat, cloud
-      rambox
       qbittorrent gnome3.gnome-screenshot
       vlc feh
       hexchat slack
       dropbox mirage
+      rambox imagemagick
 
       # Finance
       haskellPackages.hledger
@@ -108,6 +109,9 @@
     ];
     # GTK Icons
     sessionVariables = {
+      GTK_DATA_PREFIX = [
+        "${config.system.path}"
+      ];
       GDK_PIXBUF_MODULE_FILE = "$(echo ${pkgs.librsvg.out}/lib/gdk-pixbuf-2.0/*/loaders.cache)";
     };
 
@@ -176,8 +180,6 @@
   services.printing.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
-
-
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
