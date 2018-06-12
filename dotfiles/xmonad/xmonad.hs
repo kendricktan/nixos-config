@@ -97,7 +97,7 @@ main = do
   xmproc <- spawnPipe "xmobar"
 
   xmonad $ desktopConfig
-    { manageHook = manageDocks <+> (isFullscreen --> doFullFloat) <+> manageHook defaultConfig
+    { manageHook = manageDocks <+> manageHook defaultConfig
     , layoutHook = avoidStruts (layoutHook defaultConfig) ||| (named "[_]" (noBorders (fullscreenFull Full)))
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc

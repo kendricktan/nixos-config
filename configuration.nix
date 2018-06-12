@@ -156,7 +156,7 @@
         ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
       fi
       export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-      grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add &> /dev/null
+      grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add -t 24h &> /dev/null
 
       # z - jump around
       source ${pkgs.fetchurl {url = "https://github.com/rupa/z/raw/2ebe419ae18316c5597dd5fb84b5d8595ff1dde9/z.sh"; sha256 = "0ywpgk3ksjq7g30bqbhl9znz3jh6jfg8lxnbdbaiipzgsy41vi10";}}
