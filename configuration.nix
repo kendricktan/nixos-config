@@ -29,6 +29,18 @@
   # Set your time zone.
   time.timeZone = "Australia/Brisbane";
 
+  # Allow unfree build
+  nixpkgs.config = {
+    allowUnfree = true;
+
+    packageOverrides = pkgs: rec {
+      neovim = (import ./neovim.nix);
+      xfce = pkgs.xfce // {
+        gvfs = pkgs.gvfs;
+      };
+    };
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -72,6 +84,7 @@
       # Editors
       gnome3.gedit
       neovim vscode
+      sublime3
 
       # Terminals, shells and shell goodies
       termite tmux
@@ -101,6 +114,7 @@
 
       # Libraries
       python36Packages.neovim
+      python36Packages.requests
       python36Packages.youtube-dl
       python36Packages.pip
 
@@ -246,8 +260,6 @@
   };
 
   # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
   users = {
     defaultUserShell = pkgs.zsh;
     extraUsers.kendrick = {
@@ -256,18 +268,6 @@
       description = "Kendrick Tan";
       extraGroups = [ "wheel" "networkmanager" ];
       shell = pkgs.zsh;
-    };
-  };
-
-  # Allow unfree build
-  nixpkgs.config = {
-    allowUnfree = true;
-
-    packageOverrides = pkgs: rec {
-      neovim = (import ./neovim.nix);
-      xfce = pkgs.xfce // {
-        gvfs = pkgs.gvfs;
-      };
     };
   };
 

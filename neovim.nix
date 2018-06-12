@@ -35,7 +35,7 @@ pkgs.neovim.override {
       let g:syntastic_haskell_hdevtools_args = "-package-key ghc-8.0.2"
       au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
       au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
-      autocmd FileType haskell setlocal shiftwidth=2 softtabstop=2
+      autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc shiftwidth=2 softtabstop=2
 
       " hledger
       au BufNewFile,BufRead *.journal set filetype=ledger
@@ -144,6 +144,7 @@ pkgs.neovim.override {
 	  "haskell-vim"
 	  "nerdtree"
 	  "neoformat"
+          "neco-ghc"
           "syntastic"
 	  "vim-polyglot"
           "vim-hdevtools"
