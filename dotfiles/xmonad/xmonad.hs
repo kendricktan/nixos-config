@@ -25,7 +25,7 @@ import           XMonad.Util.SpawnOnce
 import           Control.Monad                    (when)
 
 
-myWorkspaces = foldl (\b a -> b ++ [(show $ length b + 1) ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
+myWorkspaces = foldl (\b a -> b ++ [show $ length b + 1 ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
 myTerminal = "termite"
 myBorderWidth = 3
 myFocusColor = "#2ecc71"
@@ -36,33 +36,34 @@ confirm m f = do
   when (result == "y") f
 
 myStartupHook = do
+  -- Kill any existing SSH Auths (see configuration's zshrc for more details)
+  spawn "rm $HOME/.ssh/ssh_auth_sock"
   -- Spawn system tray
-  spawn "kill -9 $(ps aux | grep -e \"trayer\" | awk ' { print $2 } ') &"
-  spawn "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 0 --tint 0x000000 --height 16 &"
-  -- spawn "stalonetray &"
+  spawn "kill -9 $(ps aux | grep -e \"trayer\" | awk ' { print $2 } ')"
+  spawn "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 0 --tint 0x000000 --height 16"
   -- Set color themes
-  spawn "xrdb -merge ~/.XResources &"
+  spawn "xrdb -merge ~/.XResources"
   -- Set cursor
-  spawn "xsetroot -cursor_name left_ptr &"
+  spawn "xsetroot -cursor_name left_ptr"
   -- Set wallpaper
-  spawn "feh --bg-center $HOME/Pictures/Background/background002.jpg &"
+  spawn "feh --bg-center $HOME/Pictures/Background/background002.jpg"
   -- Kill duplicate process
-  spawn "kill -9 $(ps aux | grep -e \"nm-applet\" | awk ' { print $2 } ') &"
-  spawn "kill -9 $(ps aux | grep -e \"dropbox\" | awk ' { print $2 } ') &"
+  spawn "kill -9 $(ps aux | grep -e \"nm-applet\" | awk ' { print $2 } ')"
+  spawn "kill -9 $(ps aux | grep -e \"dropbox\" | awk ' { print $2 } ')"
   -- Spawn process
-  spawn "dropbox &"
-  spawn "nm-applet &"
+  spawn "dropbox"
+  spawn "nm-applet"
 
 delKeys :: XConfig l -> [(KeyMask, KeySym)]
-delKeys conf@(XConfig {modMask = modMask}) =
-  [ ((modMask, xK_p))
-  , ((modMask, xK_q))
-  , ((modMask .|. shiftMask, xK_q))
-  , ((modMask .|. shiftMask, xK_c))
+delKeys XConfig{modMask = modMask} =
+  [ (modMask, xK_p)
+  , (modMask, xK_q)
+  , (modMask .|. shiftMask, xK_q)
+  , (modMask .|. shiftMask, xK_c)
   ]
 
 insKeys :: XConfig l -> [((KeyMask, KeySym), X ())]
-insKeys conf@(XConfig {modMask = modMask}) =
+insKeys XConfig{modMask = modMask} =
   [ ((modMask, xK_d),      spawn "rofi -show run")
   , ((modMask, xK_Tab),    spawn "rofi -show window")
   , ((modMask, xK_Return), spawn "termite")
@@ -81,24 +82,18 @@ insKeys conf@(XConfig {modMask = modMask}) =
   , ((0 .|. shiftMask, 0xff61),	   spawn "gnome-screenshot -a -f ~/Pictures/\"Screenshot-$(date '+%d-%m-%Y-%H:%M:%S').png\"")
   , ((modMask .|. shiftMask, xK_q), kill)
   , ((modMask .|. shiftMask, xK_r), confirm "Restart" $ restart "xmonad" True)
-  , ((modMask .|. shiftMask, xK_e), confirm "Exit" $ io (exitWith ExitSuccess))
+  , ((modMask .|. shiftMask, xK_e), confirm "Exit" $ io exitSuccess)
   , ((modMask .|. controlMask, xK_l), spawn "i3lock-fancy")
+  , ((modMask .|. shiftMask .|. controlMask, xK_h), spawn "xrandr --output DP2-1 --auto --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off; feh --bg-center $HOME/Pictures/Background/background002.jpg")
   ]
 
 main = do
-  -- Automatically configure screens for home
-  nScreens <- countScreens
-
-  -- if nScreens >= 2
-  --    then spawn "xrandr --output DP2-1 --auto --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
-  --    else spawn "xrandr --output DP2-1 --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off"
-
   -- Manage xmobar's process
   xmproc <- spawnPipe "xmobar"
 
   xmonad $ desktopConfig
     { manageHook = manageDocks <+> manageHook defaultConfig
-    , layoutHook = avoidStruts (layoutHook defaultConfig) ||| (named "[_]" (noBorders (fullscreenFull Full)))
+    , layoutHook = avoidStruts (layoutHook defaultConfig) ||| named "Full!" (noBorders (fullscreenFull Full))
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc
 	, ppTitle = xmobarColor "green" "" . shorten 50
