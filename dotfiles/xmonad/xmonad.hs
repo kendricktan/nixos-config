@@ -25,7 +25,7 @@ import           XMonad.Util.SpawnOnce
 import           Control.Monad                    (when)
 
 
-myWorkspaces = foldl (\b a -> b ++ [show $ length b + 1 ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
+myWorkspaces = foldl (\b a -> b ++ [show (length b + 1) ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
 myTerminal = "termite"
 myBorderWidth = 3
 myFocusColor = "#2ecc71"
