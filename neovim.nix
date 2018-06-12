@@ -38,7 +38,7 @@ pkgs.neovim.override {
       autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc shiftwidth=2 softtabstop=2
 
       " hledger
-      au BufNewFile,BufRead *.journal set filetype=ledger
+      au BufNewFile,BufRead *.ldg,*.ledger,*.journal set filetype=ledger
       autocmd FileType ledger setlocal omnifunc=hledger#complete#omnifunc shiftwidth=4 softtabstop=4 expandtab
 
       "************************************************

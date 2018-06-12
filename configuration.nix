@@ -51,6 +51,7 @@
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
       paper-icon-theme paper-gtk-theme
+      maia-icon-theme
       xorg.xcursorthemes lxappearance
       i3lock-fancy # Lock screen
 
@@ -75,7 +76,7 @@
       haskell.packages.ghc802.hoogle
 
       # Dev-languages
-      python36
+      python36 nodejs
       haskell.packages.ghc802.ghc
 
       # Browsers
@@ -98,8 +99,7 @@
       rambox imagemagick
 
       # Finance
-      haskellPackages.hledger
-      haskellPackages.hledger-web
+      ledger
 
       # Key management
       keepass gnome3.seahorse
@@ -117,6 +117,7 @@
       python36Packages.requests
       python36Packages.youtube-dl
       python36Packages.pip
+      python36Packages.setuptools
 
       # CUDA
       # cudatoolkit
