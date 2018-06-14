@@ -3,7 +3,7 @@ Config { font = "xft:Ubuntu Mono-9",
        , border = TopB
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 90
+       , position = TopW L 95
        , overrideRedirect = True
        , commands = [ Run Weather "YBBN" [
                         "-t", "<tempC>C", "-L", "18",

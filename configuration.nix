@@ -18,6 +18,7 @@
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos-t460s"; # Define your hostname.
+  networking.extraHosts = "52.170.89.247 popguninstance";
 
   # Select internationalisation properties.
   i18n = {
@@ -85,15 +86,14 @@
       # Editors
       gnome3.gedit
       neovim vscode
-      sublime3
 
       # Terminals, shells and shell goodies
-      termite tmux
+      termite tmux st
       oh-my-zsh zsh
 
       # Torrent, multimedia, chat, cloud
       qbittorrent gnome3.gnome-screenshot
-      vlc feh
+      gnome3.cheese vlc feh
       hexchat slack
       dropbox mirage
       rambox imagemagick

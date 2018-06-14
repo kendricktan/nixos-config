@@ -40,7 +40,7 @@ myStartupHook = do
   spawn "rm $HOME/.ssh/ssh_auth_sock"
   -- Spawn system tray
   spawn "kill -9 $(ps aux | grep -e \"trayer\" | awk ' { print $2 } ')"
-  spawn "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 0 --tint 0x000000 --height 16"
+  spawn "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 5 --transparent true --alpha 0 --tint 0x000000 --height 16"
   -- Set color themes
   spawn "xrdb -merge ~/.XResources"
   -- Set cursor
@@ -96,7 +96,7 @@ main = do
     , layoutHook = avoidStruts (layoutHook defaultConfig) ||| named "Full!" (noBorders (fullscreenFull Full))
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc
-	, ppTitle = xmobarColor "green" "" . shorten 50
+	, ppTitle = xmobarColor "green" "" . shorten 42
 	}
     , workspaces = myWorkspaces
     , terminal = myTerminal
