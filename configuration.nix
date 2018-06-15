@@ -18,7 +18,7 @@
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos-t460s"; # Define your hostname.
-  networking.extraHosts = "52.170.89.247 popguninstance";
+  networking.extraHosts = "40.76.65.151 popguninstance";
 
   # Select internationalisation properties.
   i18n = {

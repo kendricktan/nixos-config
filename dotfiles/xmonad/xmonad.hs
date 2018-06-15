@@ -9,11 +9,14 @@ import           XMonad.Core                      (io)
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers       (doFullFloat, isFullscreen)
+import           XMonad.Layout                    (Full, Mirror, Tall)
+import XMonad.Layout.Tabbed (simpleTabbed)
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.IndependentScreens (countScreens)
 import           XMonad.Layout.Minimize
 import           XMonad.Layout.Named
 import           XMonad.Layout.NoBorders
+import           XMonad.Layout.Spiral             (spiral)
 import           XMonad.Operations                (kill, refresh, restart,
                                                    reveal, withFocused)
 import           XMonad.Prompt                    (quit)
@@ -25,16 +28,22 @@ import           XMonad.Util.SpawnOnce
 import           Control.Monad                    (when)
 
 
+-- Settings
+--
 myWorkspaces = foldl (\b a -> b ++ [show (length b + 1) ++ ": " ++ a]) [] ["www", "dev", "term", "irc", "ops", "music", "leisure", "office", "misc"]
 myTerminal = "termite"
 myBorderWidth = 3
 myFocusColor = "#2ecc71"
 
+-- Dmenu confirmation bar
+--
 confirm :: String -> X () -> X ()
 confirm m f = do
   result <- dmenu [m, "y", "n"]
   when (result == "y") f
 
+-- What applications to run on startup
+--
 myStartupHook = do
   -- Kill any existing SSH Auths (see configuration's zshrc for more details)
   spawn "rm $HOME/.ssh/ssh_auth_sock"
@@ -54,6 +63,17 @@ myStartupHook = do
   spawn "dropbox"
   spawn "nm-applet"
 
+-- Layout configuration
+--
+myLayoutHook =
+  avoidStruts
+  ( Tall 1 (3/100) (1/2)	 |||
+    Mirror (Tall 1 (3/100) (1/2)) |||
+    simpleTabbed
+  ) ||| noBorders (fullscreenFull Full)
+
+-- Remove defined keys
+--
 delKeys :: XConfig l -> [(KeyMask, KeySym)]
 delKeys XConfig{modMask = modMask} =
   [ (modMask, xK_p)
@@ -62,6 +82,8 @@ delKeys XConfig{modMask = modMask} =
   , (modMask .|. shiftMask, xK_c)
   ]
 
+-- Insert new hotkeys
+--
 insKeys :: XConfig l -> [((KeyMask, KeySym), X ())]
 insKeys XConfig{modMask = modMask} =
   [ ((modMask, xK_d),      spawn "rofi -show run")
@@ -87,13 +109,15 @@ insKeys XConfig{modMask = modMask} =
   , ((modMask .|. shiftMask .|. controlMask, xK_h), spawn "xrandr --output DP2-1 --auto --rotate left --right-of DP2-3 --output DP2-3 --primary --output eDP1 --off; feh --bg-center $HOME/Pictures/Background/background002.jpg")
   ]
 
+-- Main
+--
 main = do
   -- Manage xmobar's process
   xmproc <- spawnPipe "xmobar"
 
   xmonad $ desktopConfig
     { manageHook = manageDocks <+> manageHook defaultConfig
-    , layoutHook = avoidStruts (layoutHook defaultConfig) ||| named "Full!" (noBorders (fullscreenFull Full))
+    , layoutHook = myLayoutHook
     , logHook = dynamicLogWithPP xmobarPP
 	{ ppOutput = hPutStrLn xmproc
 	, ppTitle = xmobarColor "green" "" . shorten 42

@@ -30,9 +30,11 @@ pkgs.neovim.override {
       let g:syntastic_check_on_wq = 1
 
       " haskell
+      let g:haskell_tabular = 1
       let g:haskellmode_completion_ghc = 0
       let g:haskell_classic_highlighting = 1
       let g:syntastic_haskell_hdevtools_args = "-package-key ghc-8.0.2"
+
       au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
       au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
       autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc shiftwidth=2 softtabstop=2
@@ -81,6 +83,13 @@ pkgs.neovim.override {
         let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~ '\s'
       endfunction"}}}
+
+      " Alginment
+      vmap a= :Tab /=<CR>
+      vmap a; :Tab /::<CR>
+      vmap a- :Tab /-><CR>
+      vmap a$ :Tab /$><CR>
+
 
       "************************************************
       "" Core
@@ -146,6 +155,7 @@ pkgs.neovim.override {
 	  "neoformat"
           "neco-ghc"
           "syntastic"
+          "tabular"
 	  "vim-polyglot"
           "vim-hdevtools"
 	  "vim-multiple-cursors"
