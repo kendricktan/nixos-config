@@ -100,6 +100,7 @@ pkgs.neovim.override {
 
       let no_buffers_menu=1
 
+      set expandtab                                     " Expand TABS to spaces
       set backspace=indent,eol,start			" Backspace works as expected
       set relativenumber				" Relative line numbers
       set hidden					" Allows hidden buffers
