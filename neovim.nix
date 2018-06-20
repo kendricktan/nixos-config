@@ -150,6 +150,7 @@ pkgs.neovim.override {
 	  "airline"
           "deus"
           "deoplete-nvim"
+          "deoplete-jedi"
           "hledger-vim"
 	  "haskell-vim"
 	  "nerdtree"

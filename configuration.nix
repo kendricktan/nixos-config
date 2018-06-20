@@ -3,7 +3,7 @@
 # and in the NixOS manual (accessible by running â€˜nixos-helpâ€™).
 
 
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs_i686, ... }:
 
 {
   imports =
@@ -14,7 +14,7 @@
   # Use EFI
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.kernelModules = [ "pkgs.linuxPackages.nvidia_x11" ];
+
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos-t460s"; # Define your hostname.
@@ -67,10 +67,11 @@
       # File managers, compression tools, file-related tools
       gnome3.nautilus p7zip unrar unzip
       samba gvfs xfce.thunar # Thunar in-case nautilus screws up
-      librsvg ntfs3g
+      librsvg ntfs3g zlib
 
       # Dev-tools
       gnumake gcc
+      stack
       cabal-install
       haskell.packages.ghc802.hdevtools
       haskell.packages.ghc802.stylish-haskell
@@ -97,6 +98,7 @@
       hexchat slack
       dropbox mirage
       rambox imagemagick
+      gnome3.eog
 
       # Finance
       ledger
@@ -212,6 +214,11 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  # Nvidia stuff
+  # disable card with bbswitch by default
+  # hardware.nvidiaOptimus.disable = true;
+  hardware.opengl.driSupport32Bit = true;
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
@@ -243,8 +250,7 @@
       tapButtons = false;
       scrollDelta = -75; # Natural scroll
     };
-    # CUDA Related Stuff
-    # videoDrivers = [ "nvidia" ];
+    videoDrivers = [ "intel" "nvidia" ];
   };
 
   fonts = {
