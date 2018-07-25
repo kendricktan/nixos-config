@@ -9,11 +9,5 @@ cp ./dotfiles/xmonad/xmonad.hs ~/.xmonad/xmonad.hs
 cp ./dotfiles/xmobarrc ~/.xmobarrc
 cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
 
-# Get GHC-Mod working on ghc-8.0.2
-echo "export PATH=$HOME/.cabal/bin:$PATH" >> $HOME/.zshrc
-source $HOME/.zshrc
-
-cabal update
-cabal install happy
-cabal install hlint
-cabal install ghc-mod
+# haskell-ide-engine
+nix-env -iA hies -f https://github.com/domenkozar/hie-nix/tarball/e3113da93b479bec3046e67c0123860732335dd9

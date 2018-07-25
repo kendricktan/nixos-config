@@ -1,6 +1,8 @@
 with import <nixpkgs> {};
 
-pkgs.neovim.override {
+let
+  rtpPath = "share/vim-plugins";
+in pkgs.neovim.override {
   vimAlias = true;
   configure = {
     customRC = ''
@@ -33,15 +35,16 @@ pkgs.neovim.override {
       let g:haskell_tabular = 1
       let g:haskellmode_completion_ghc = 0
       let g:haskell_classic_highlighting = 1
-      let g:syntastic_haskell_hdevtools_args = "-package-key ghc-8.0.2"
+      let g:syntastic_haskell_hdevtools_args = "-package-key ghc"
 
-      au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
-      au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
       autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc shiftwidth=2 softtabstop=2
 
-      " hledger
-      au BufNewFile,BufRead *.ldg,*.ledger,*.journal set filetype=ledger
-      autocmd FileType ledger setlocal omnifunc=hledger#complete#omnifunc shiftwidth=4 softtabstop=4 expandtab
+      let g:LanguageClient_autoStart = 1
+      let g:LanguageClient_serverCommands = {
+        \ 'haskell': ['hie-8.2', '--lsp'],
+        \ }
+
+      nnoremap <F1> :call LanguageClient_contextMenu()<CR>
 
       "************************************************
       "" Key mappings
@@ -134,15 +137,6 @@ pkgs.neovim.override {
           sha256 = "1sn62nvdjs8i4lvmqj19gyj5k9w588whaylk50xn4y2z57cyf7a7";
         };
       };
-      hledger-vim = pkgs.vimUtils.buildVimPlugin {
-        name = "hledger-vim";
-        src = pkgs.fetchFromGitHub {
-          owner = "anekos";
-          repo = "hledger-vim";
-          rev = "dec68a37073cbeca3b1e3cac251324378b74ed97";
-          sha256 = "0khgfbkx8w4fiix2fcnhg4b4sj98hsrkbg9srqdp3a58dpi105zi";
-        };
-      };
     };
     vam.pluginDictionaries = [
       {
@@ -151,17 +145,20 @@ pkgs.neovim.override {
           "deus"
           "deoplete-nvim"
           "deoplete-jedi"
-          "hledger-vim"
 	  "haskell-vim"
+          "LanguageClient-neovim"
 	  "nerdtree"
 	  "neoformat"
-          "neco-ghc"
           "syntastic"
           "tabular"
 	  "vim-polyglot"
           "vim-hdevtools"
 	  "vim-multiple-cursors"
-	];
+        ];
+      }
+      {
+        name = "deoplete-nvim";
+        exec = ":UpdateRemotePlugins";
       }
     ];
   };

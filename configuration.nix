@@ -15,7 +15,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 80 443 8080 ];
+  networking.firewall.allowedUDPPorts = [ 80 443 8080 ];
   networking.networkmanager.enable = true;
   networking.hostName = "nixos-t460s"; # Define your hostname.
   networking.extraHosts = "40.76.65.151 popguninstance";
@@ -63,6 +65,7 @@
       gnupg powertop scrot
       telnet tree
       xorg.xev xorg.xkill
+      nix-prefetch-git
 
       # File managers, compression tools, file-related tools
       gnome3.nautilus p7zip unrar unzip
@@ -71,15 +74,15 @@
 
       # Dev-tools
       gnumake gcc
-      stack
-      cabal-install
-      haskell.packages.ghc802.hdevtools
-      haskell.packages.ghc802.stylish-haskell
-      haskell.packages.ghc802.hoogle
+      cudatoolkit
+      cargo cabal-install
+      haskellPackages.hdevtools
+      haskellPackages.stylish-haskell
+      haskellPackages.hoogle
 
       # Dev-languages
       python36 nodejs
-      haskell.packages.ghc802.ghc
+      haskellPackages.ghc
 
       # Browsers
       firefox google-chrome
@@ -98,7 +101,8 @@
       hexchat slack
       dropbox mirage
       rambox imagemagick
-      gnome3.eog
+      gnome3.eog inkscape
+      exiftool
 
       # Finance
       ledger
@@ -114,15 +118,16 @@
       xlibs.xmodmap xlibs.xbacklight
       upower tlp acpi
 
+      # Networking
+      mitmproxy
+      iptables
+
       # Libraries
       python36Packages.neovim
       python36Packages.requests
       python36Packages.youtube-dl
       python36Packages.pip
       python36Packages.setuptools
-
-      # CUDA
-      # cudatoolkit
     ];
     # GTK Icons
     sessionVariables = {
@@ -156,6 +161,7 @@
   # started in user sessions.
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
+  programs.java.enable = true;
   programs.slock.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.zsh = {
