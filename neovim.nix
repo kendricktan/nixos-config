@@ -16,7 +16,7 @@ in pkgs.neovim.override {
       " deoplete
       let g:deoplete#enable_at_startup = 1
       let g:deoplete#enable_smart_case = 1
-      let b:deoplete_disable_auto_complete = 1 
+      let g:deoplete#disable_auto_complete = 1 
 
       " airline
       let g:airline#extensions#tabline#enabled = 1
@@ -74,6 +74,12 @@ in pkgs.neovim.override {
       " Toggle paste
       set pastetoggle=<F10>
 
+      " Copy/Paste from system clipboard
+      noremap <Leader>y "*y
+      noremap <Leader>p "*p
+      noremap <Leader>Y "+y
+      noremap <Leader>P "+p
+
       " Open Nerdtree
       noremap <F3> :NERDTreeToggle<CR>
 
@@ -107,8 +113,9 @@ in pkgs.neovim.override {
       set backspace=indent,eol,start			" Backspace works as expected
       set relativenumber				" Relative line numbers
       set hidden					" Allows hidden buffers
-
       set cursorline					" Highlight current line
+      set shiftwidth=2
+      set softtabstop=2
 
       " Jump back to last position
       if has("autocmd")

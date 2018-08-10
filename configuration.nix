@@ -1,4 +1,3 @@
-# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running â€˜nixos-helpâ€™).
 
@@ -53,10 +52,12 @@
       rofi dmenu trayer # Dynamic menu
       pavucontrol pasystray # Volume
       networkmanager networkmanagerapplet # Network
+      blueman # Bluetooth
       paper-icon-theme paper-gtk-theme
       maia-icon-theme
       xorg.xcursorthemes lxappearance
       i3lock-fancy # Lock screen
+      mesa xclip
 
       # CLI utils
       curl wget
@@ -65,23 +66,28 @@
       gnupg powertop scrot
       telnet tree
       xorg.xev xorg.xkill
+      glxinfo
       nix-prefetch-git
+      cabal2nix
 
       # File managers, compression tools, file-related tools
       gnome3.nautilus p7zip unrar unzip
+      gnome3.file-roller
       samba gvfs xfce.thunar # Thunar in-case nautilus screws up
       librsvg ntfs3g zlib
 
       # Dev-tools
+      elixir sqlite
+      ansible terraform
+      docker docker_compose
       gnumake gcc
-      cudatoolkit
       cargo cabal-install
       haskellPackages.hdevtools
       haskellPackages.stylish-haskell
       haskellPackages.hoogle
 
       # Dev-languages
-      python36 nodejs
+      python36 nodejs-9_x
       haskellPackages.ghc
 
       # Browsers
@@ -90,6 +96,7 @@
       # Editors
       gnome3.gedit
       neovim vscode
+      netbeans
 
       # Terminals, shells and shell goodies
       termite tmux st
@@ -102,7 +109,8 @@
       dropbox mirage
       rambox imagemagick
       gnome3.eog inkscape
-      exiftool
+      obs-studio
+      exiftool webtorrent_desktop
 
       # Finance
       ledger
@@ -123,6 +131,8 @@
       iptables
 
       # Libraries
+      python36Packages.boto3
+      python36Packages.requests
       python36Packages.neovim
       python36Packages.requests
       python36Packages.youtube-dl
@@ -218,12 +228,29 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+
+  # Graphics
+  hardware.opengl.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+
+  # Pulseaudio full for bluetooth support
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+  };
+
+  # Enable Bluetooth for LE devices (Bose QC 35)
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.extraConfig = ''
+    [General]
+    Enable=Source,Sink,Media,Socket
+    ControllerMode = bredr
+    AutoConnect=true
+  '';
 
   # Nvidia stuff
   # disable card with bbswitch by default
-  # hardware.nvidiaOptimus.disable = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.nvidiaOptimus.disable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -256,7 +283,7 @@
       tapButtons = false;
       scrollDelta = -75; # Natural scroll
     };
-    videoDrivers = [ "intel" "nvidia" ];
+    videoDrivers = [ "intel" ];
   };
 
   fonts = {
@@ -266,6 +293,7 @@
       corefonts		  # Microsoft free fonts
       fira	      	  # Monospace
       inconsolata     	  # Monospace
+      noto-fonts-cjk      # Chinese, Traditional Chinese, Japanese, Korean
       powerline-fonts
       ubuntu_font_family
       unifont		  # International languages
@@ -279,7 +307,7 @@
       isNormalUser = true;
       home = "/home/kendrick";
       description = "Kendrick Tan";
-      extraGroups = [ "wheel" "networkmanager" ];
+      extraGroups = [ "wheel" "networkmanager" "docker" ];
       shell = pkgs.zsh;
     };
   };
