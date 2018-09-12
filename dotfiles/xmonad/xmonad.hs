@@ -55,7 +55,7 @@ myStartupHook = do
   -- Set cursor
   spawn "xsetroot -cursor_name left_ptr"
   -- Set wallpaper
-  spawn "feh --bg-center $HOME/Pictures/Background/background002.jpg"
+  spawn "feh --bg-scale $HOME/Pictures/Background/background001.jpg"
   -- Kill duplicate process
   spawn "kill -9 $(ps aux | grep -e \"nm-applet\" | awk ' { print $2 } ')"
   spawn "kill -9 $(ps aux | grep -e \"dropbox\" | awk ' { print $2 } ')"

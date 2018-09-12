@@ -68,6 +68,7 @@
       xorg.xev xorg.xkill
       glxinfo
       nix-prefetch-git
+      ranger
       cabal2nix
 
       # File managers, compression tools, file-related tools

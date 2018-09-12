@@ -11,5 +11,5 @@ nixos-rebuild switch
 ./config.sh
 ```
 
-# Todo
-1. Get ghc-mod working with 18.03 (other than installing in on a local cabal dir)
+# More
+1. To refresh GTK Icon cache, run `lxappearance` and select your icon theme
